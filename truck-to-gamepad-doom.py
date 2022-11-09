@@ -23,23 +23,23 @@ def vehicle_dynamics_callback(topic_name, vehicle_dynamics_pb, time):
     relative_joystick = (steering_wheel_value - steering_wheel_min) / (steering_wheel_max - steering_wheel_min)
     relative_joystick = -((relative_joystick * 2) - 1.0)
 
-    gamepad.left_joystick_float(x_value_float=relative_joystick, y_value_float=0.0)  # values between -1.0 and 1.0
+    gamepad.right_joystick_float(x_value_float=relative_joystick, y_value_float=0.0)  # values between -1.0 and 1.0
     gamepad.update()
 
 def brake_in_callback(topic_name, brake_in_pb, time):
     is_brake_applied = brake_in_pb.signals.is_brake_applied
     if (is_brake_applied):
-        gamepad.right_trigger_float(value_float=1.0)  # value between 0.0 and 1.0
+        gamepad.left_joystick_float(x_value_float=0.0, y_value_float=1.0)  # values between -1.0 and 1.0
     else:
-        gamepad.right_trigger_float(value_float=0.0)  # value between 0.0 and 1.0
+        gamepad.left_joystick_float(x_value_float=0.0, y_value_float=0.0)  # values between -1.0 and 1.0
     gamepad.update()
 
 def button_callback(topic_name, button_state_pb, time):
     is_button_pressed = (button_state_pb.ActStatForButton == 1)
     if is_button_pressed:
-        gamepad.left_trigger_float(value_float=0.0)  # value between 0.0 and 1.0
+        gamepad.right_trigger_float(value_float=1.0)  # value between 0.0 and 1.0
     else:
-        gamepad.left_trigger_float(value_float=1.0)  # value between 0.0 and 1.0
+        gamepad.right_trigger_float(value_float=0.0)  # value between 0.0 and 1.0
     gamepad.update()
     
 if __name__ == "__main__":
